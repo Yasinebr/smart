@@ -305,62 +305,6 @@ class ParkingRate(models.Model):
     def __str__(self):
         return f"{self.name} - {self.parking.name}"
 
-
-class ParkingReservation(models.Model):
-    """مدل رزرو پارکینگ"""
-
-    parking_lot = models.ForeignKey(ParkingLot, on_delete=models.CASCADE, related_name='reservations')
-    spot = models.ForeignKey(ParkingSlot, on_delete=models.SET_NULL, null=True, related_name='reservations')
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='parking_reservations')
-    vehicle = models.ForeignKey('vehicles.Vehicle', on_delete=models.CASCADE, related_name='reservations')
-
-    # زمان‌های رزرو
-    start_time = models.DateTimeField(_('start time'))
-    end_time = models.DateTimeField(_('end time'))
-
-    # وضعیت رزرو
-    PENDING = 'pending'
-    CONFIRMED = 'confirmed'
-    CANCELED = 'canceled'
-    COMPLETED = 'completed'
-
-    STATUS_CHOICES = [
-        (PENDING, _('Pending')),
-        (CONFIRMED, _('Confirmed')),
-        (CANCELED, _('Canceled')),
-        (COMPLETED, _('Completed')),
-    ]
-
-    status = models.CharField(_('status'), max_length=10, choices=STATUS_CHOICES, default=PENDING)
-
-    # اطلاعات مالی
-    amount = models.DecimalField(_('amount'), max_digits=10, decimal_places=2, default=0)
-    is_paid = models.BooleanField(_('is paid'), default=False)
-    payment = models.ForeignKey('payments.Payment', on_delete=models.SET_NULL, null=True, blank=True,
-                                related_name='reservations')
-
-    # یادآوری
-    reminder_sent = models.BooleanField(_('reminder sent'), default=False)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = _('parking reservation')
-        verbose_name_plural = _('parking reservations')
-
-    def __str__(self):
-        return f"{self.user.email} - {self.parking_lot.name} ({self.start_time})"
-
-    @property
-    def duration(self):
-        return self.end_time - self.start_time
-
-    @property
-    def is_active(self):
-        return self.status in [self.PENDING, self.CONFIRMED]
-
-
 class ParkingSubscription(models.Model):
     """مدل اشتراک پارکینگ"""
 
@@ -412,13 +356,6 @@ class ParkingSubscription(models.Model):
 class ParkingReservation(models.Model):
     """مدل رزرو پارکینگ"""
 
-    class ReservationStatus(models.TextChoices):
-        PENDING = 'pending', _('در انتظار')
-        CONFIRMED = 'confirmed', _('تایید شده')
-        CHECKEDIN = 'checked_in', _('ورود انجام شده')
-        COMPLETED = 'completed', _('تکمیل شده')
-        CANCELLED = 'cancelled', _('لغو شده')
-
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -437,8 +374,6 @@ class ParkingReservation(models.Model):
         related_name='reservations',
         verbose_name=_('خودرو')
     )
-    reservation_start = models.DateTimeField(_('زمان شروع رزرو'))
-    reservation_end = models.DateTimeField(_('زمان پایان رزرو'))
     parking_slot = models.ForeignKey(
         ParkingSlot,
         on_delete=models.SET_NULL,
@@ -447,6 +382,22 @@ class ParkingReservation(models.Model):
         related_name='reservations',
         verbose_name=_('جایگاه پارک')
     )
+    amount_paid = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0.00,
+        verbose_name=_('مبلغ پرداختی')
+    )
+    reservation_start = models.DateTimeField(_('زمان شروع رزرو'))
+    reservation_end = models.DateTimeField(_('زمان پایان رزرو'))
+
+    class ReservationStatus(models.TextChoices):
+        PENDING = 'pending', _('در انتظار')
+        CONFIRMED = 'confirmed', _('تایید شده')
+        CHECKEDIN = 'checked_in', _('ورود انجام شده')
+        COMPLETED = 'completed', _('تکمیل شده')
+        CANCELLED = 'cancelled', _('لغو شده')
+
     status = models.CharField(
         _('وضعیت'),
         max_length=15,

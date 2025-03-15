@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from .serializers import (
     ParkingLotSerializer,
     ParkingZoneSerializer,
-    ParkingSpotSerializer,
+    ParkingSlotSerializer,
     ParkingSessionSerializer,
     ParkingReservationSerializer
 )
@@ -53,11 +53,11 @@ class ParkingLotViewSet(viewsets.ModelViewSet):
     def available_spots(self, request, pk=None):
         """گرفتن جاهای پارک آزاد یک پارکینگ"""
         parking_lot = self.get_object()
-        available_spots = ParkingSpot.objects.filter(
+        available_spots = ParkingSlot.objects.filter(
             zone__parking_lot=parking_lot,
-            status=ParkingSpot.AVAILABLE
+            status=ParkingSlot.AVAILABLE
         )
-        serializer = ParkingSpotSerializer(available_spots, many=True)
+        serializer = ParkingSlotSerializer(available_spots, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=['get'])
@@ -113,15 +113,15 @@ class ParkingZoneViewSet(viewsets.ModelViewSet):
     def spots(self, request, pk=None):
         """گرفتن جاهای پارک یک زون"""
         zone = self.get_object()
-        spots = ParkingSpot.objects.filter(zone=zone)
-        serializer = ParkingSpotSerializer(spots, many=True)
+        spots = ParkingSlot.objects.filter(zone=zone)
+        serializer = ParkingSlotSerializer(spots, many=True)
         return Response(serializer.data)
 
 
 class ParkingSpotViewSet(viewsets.ModelViewSet):
     """ویوست جای پارک"""
     queryset = ParkingSlot.objects.all()
-    serializer_class = ParkingSpotSerializer
+    serializer_class = ParkingSlotSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['zone', 'status', 'is_covered', 'has_charger']
@@ -148,7 +148,7 @@ class ParkingSpotViewSet(viewsets.ModelViewSet):
             )
 
         status_value = request.data.get('status')
-        if not status_value or status_value not in [choice[0] for choice in ParkingSpot.STATUS_CHOICES]:
+        if not status_value or status_value not in [choice[0] for choice in ParkingSlot.STATUS_CHOICES]:
             return Response(
                 {'detail': _('Invalid status value.')},
                 status=status.HTTP_400_BAD_REQUEST
@@ -157,7 +157,7 @@ class ParkingSpotViewSet(viewsets.ModelViewSet):
         # بررسی آیا وضعیت جدید مجاز است
         if spot.status != status_value:
             # اگر جای پارک رزرو یا اشغال شده است، نمی‌توان آن را به راحتی تغییر داد
-            if spot.status in [ParkingSpot.RESERVED, ParkingSpot.OCCUPIED]:
+            if spot.status in [ParkingSlot.RESERVED, ParkingSlot.OCCUPIED]:
                 # بررسی رزروها و جلسات فعال
                 active_sessions = ParkingSession.objects.filter(
                     spot=spot,
@@ -182,16 +182,16 @@ class ParkingSpotViewSet(viewsets.ModelViewSet):
         # به‌روزرسانی تعداد جاهای اشغال شده در زون و پارکینگ
         self._update_occupancy_counters(spot.zone.id)
 
-        return Response(ParkingSpotSerializer(spot).data)
+        return Response(ParkingSlotSerializer(spot).data)
 
     def _update_occupancy_counters(self, zone_id):
         """به‌روزرسانی شمارنده‌های اشغال بر اساس وضعیت جاهای پارک"""
         zone = ParkingZone.objects.get(id=zone_id)
 
         # شمارش جاهای اشغال شده در زون
-        occupied_count = ParkingSpot.objects.filter(
+        occupied_count = ParkingSlot.objects.filter(
             zone=zone,
-            status__in=[ParkingSpot.OCCUPIED, ParkingSpot.RESERVED]
+            status__in=[ParkingSlot.OCCUPIED, ParkingSlot.RESERVED]
         ).count()
 
         # به‌روزرسانی شمارنده زون
@@ -261,15 +261,15 @@ class ParkingSessionViewSet(viewsets.ModelViewSet):
             spot = None
             if spot_id:
                 try:
-                    spot = ParkingSpot.objects.get(id=spot_id)
+                    spot = ParkingSlot.objects.get(id=spot_id)
                     if spot.zone.parking_lot.id != parking_lot.id:
                         return Response(
                             {'detail': _('This spot does not belong to the specified parking lot.')},
                             status=status.HTTP_400_BAD_REQUEST
                         )
-                    if spot.status != ParkingSpot.AVAILABLE:
+                    if spot.status != ParkingSlot.AVAILABLE:
                         raise ParkingSpotUnavailableError()
-                except ParkingSpot.DoesNotExist:
+                except ParkingSlot.DoesNotExist:
                     return Response(
                         {'detail': _('Parking spot not found.')},
                         status=status.HTTP_404_NOT_FOUND
@@ -313,9 +313,9 @@ class ParkingSessionViewSet(viewsets.ModelViewSet):
 
             # انتخاب جای پارک آزاد اگر مشخص نشده باشد
             if not spot:
-                available_spots = ParkingSpot.objects.filter(
+                available_spots = ParkingSlot.objects.filter(
                     zone__parking_lot=parking_lot,
-                    status=ParkingSpot.AVAILABLE
+                    status=ParkingSlot.AVAILABLE
                 )
                 if available_spots.exists():
                     spot = available_spots.first()
@@ -333,7 +333,7 @@ class ParkingSessionViewSet(viewsets.ModelViewSet):
             )
 
             # به‌روزرسانی وضعیت جای پارک
-            spot.status = ParkingSpot.OCCUPIED
+            spot.status = ParkingSlot.OCCUPIED
             spot.save()
 
             # به‌روزرسانی شمارنده‌های اشغال
@@ -456,7 +456,7 @@ class ParkingSessionViewSet(viewsets.ModelViewSet):
 
             # به‌روزرسانی وضعیت جای پارک
             spot = session.spot
-            spot.status = ParkingSpot.AVAILABLE
+            spot.status = ParkingSlot.AVAILABLE
             spot.save()
 
             # به‌روزرسانی شمارنده‌های اشغال
@@ -493,41 +493,45 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
     serializer_class = ParkingReservationSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['parking_lot', 'spot', 'user', 'vehicle', 'status', 'is_paid']
+    filterset_fields = ['parking', 'spot', 'user', 'vehicle', 'status']  # تغییر از parking_lot به parking
     search_fields = ['vehicle__license_plate', 'user__email']
-    ordering_fields = ['start_time', 'end_time', 'amount', 'created_at']
+    ordering_fields = ['reservation_start', 'reservation_end', 'amount_paid', 'created_at']  # تغییر نام فیلدها
 
     def get_queryset(self):
         """فیلتر کردن رزروها بر اساس نقش کاربر"""
+        # برای رفع مشکل swagger
+        if getattr(self, 'swagger_fake_view', False):
+            return ParkingReservation.objects.none()
+
         user = self.request.user
         if user.is_admin:
             return ParkingReservation.objects.all()
         elif user.is_parking_manager:
-            return ParkingReservation.objects.filter(parking_lot__manager=user)
+            return ParkingReservation.objects.filter(parking__manager=user)  # تغییر از parking_lot به parking
         else:
             return ParkingReservation.objects.filter(user=user)
 
     def perform_create(self, serializer):
         """ذخیره رزرو با محاسبه مبلغ"""
-        start_time = serializer.validated_data.get('start_time')
-        end_time = serializer.validated_data.get('end_time')
-        parking_lot = serializer.validated_data.get('parking_lot')
+        start_time = serializer.validated_data.get('reservation_start')  # تغییر نام فیلد
+        end_time = serializer.validated_data.get('reservation_end')  # تغییر نام فیلد
+        parking = serializer.validated_data.get('parking')  # تغییر از parking_lot به parking
         spot = serializer.validated_data.get('spot')
 
         # بررسی تداخل رزرو
         if spot:
             overlapping_reservations = ParkingReservation.objects.filter(
                 spot=spot,
-                status__in=[ParkingReservation.PENDING, ParkingReservation.CONFIRMED],
-                start_time__lt=end_time,
-                end_time__gt=start_time
+                status__in=['pending', 'confirmed'],  # مقادیر متناسب با ReservationStatus
+                reservation_start__lt=end_time,  # تغییر نام فیلد
+                reservation_end__gt=start_time  # تغییر نام فیلد
             )
 
             if overlapping_reservations.exists():
                 raise ReservationConflictError()
 
             # بررسی وضعیت جای پارک
-            if spot.status != ParkingSpot.AVAILABLE:
+            if spot.status != ParkingSlot.SlotStatus.AVAILABLE:  # تغییر به ParkingSlot.SlotStatus.AVAILABLE
                 raise ParkingSpotUnavailableError()
 
         # محاسبه مبلغ رزرو
@@ -536,14 +540,14 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
 
         if duration_hours <= 24:
             # محاسبه بر اساس نرخ ساعتی
-            amount = duration_hours * parking_lot.hourly_rate * price_multiplier
+            amount = duration_hours * parking.hourly_rate * price_multiplier  # تغییر از parking_lot به parking
         else:
             # محاسبه بر اساس نرخ روزانه
             days = duration_hours / 24
-            amount = days * parking_lot.daily_rate * price_multiplier
+            amount = days * parking.daily_rate * price_multiplier  # تغییر از parking_lot به parking
 
         # ذخیره رزرو
-        serializer.save(amount=amount, user=self.request.user)
+        serializer.save(amount_paid=amount, user=self.request.user)  # تغییر از amount به amount_paid
 
     @action(detail=True, methods=['post'])
     def confirm(self, request, pk=None):
@@ -551,26 +555,27 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
         reservation = self.get_object()
 
         # بررسی مجوز دسترسی
-        if not (request.user.is_admin or reservation.parking_lot.manager == request.user):
+        if not (
+                request.user.is_admin or reservation.parking.manager == request.user):  # تغییر از parking_lot به parking
             return Response(
                 {'detail': _('You do not have permission to confirm this reservation.')},
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        # بررسی وضعیت رزرو
-        if reservation.status != ParkingReservation.PENDING:
+        # بررسی وضعیت رزرو - نیاز به تطبیق با StatusChoices در مدل ParkingReservation
+        if reservation.status != 'pending':  # مقدار متناسب با ReservationStatus
             return Response(
                 {'detail': _('Only pending reservations can be confirmed.')},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         # به‌روزرسانی وضعیت رزرو
-        reservation.status = ParkingReservation.CONFIRMED
+        reservation.status = 'confirmed'  # مقدار متناسب با ReservationStatus
         reservation.save()
 
         # به‌روزرسانی وضعیت جای پارک
         if reservation.spot:
-            reservation.spot.status = ParkingSpot.RESERVED
+            reservation.spot.status = ParkingSlot.SlotStatus.RESERVED  # تغییر به ParkingSlot.SlotStatus.RESERVED
             reservation.spot.save()
 
         return Response(ParkingReservationSerializer(reservation).data)
@@ -582,26 +587,26 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
 
         # بررسی مجوز دسترسی - فقط کاربر ایجاد کننده یا مدیر می‌تواند لغو کند
         if not (
-                request.user.is_admin or reservation.parking_lot.manager == request.user or reservation.user == request.user):
+                request.user.is_admin or reservation.parking.manager == request.user or reservation.user == request.user):  # تغییر از parking_lot به parking
             return Response(
                 {'detail': _('You do not have permission to cancel this reservation.')},
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        # بررسی وضعیت رزرو
-        if reservation.status not in [ParkingReservation.PENDING, ParkingReservation.CONFIRMED]:
+        # بررسی وضعیت رزرو - نیاز به تطبیق با StatusChoices در مدل ParkingReservation
+        if reservation.status not in ['pending', 'confirmed']:  # مقادیر متناسب با ReservationStatus
             return Response(
                 {'detail': _('Only pending or confirmed reservations can be canceled.')},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         # به‌روزرسانی وضعیت رزرو
-        reservation.status = ParkingReservation.CANCELED
+        reservation.status = 'cancelled'  # مقدار متناسب با ReservationStatus
         reservation.save()
 
         # به‌روزرسانی وضعیت جای پارک
-        if reservation.spot and reservation.spot.status == ParkingSpot.RESERVED:
-            reservation.spot.status = ParkingSpot.AVAILABLE
+        if reservation.spot and reservation.spot.status == ParkingSlot.SlotStatus.RESERVED:  # تغییر به ParkingSlot.SlotStatus.RESERVED
+            reservation.spot.status = ParkingSlot.SlotStatus.AVAILABLE  # تغییر به ParkingSlot.SlotStatus.AVAILABLE
             reservation.spot.save()
 
         return Response(ParkingReservationSerializer(reservation).data)
@@ -612,26 +617,27 @@ class ParkingReservationViewSet(viewsets.ModelViewSet):
         reservation = self.get_object()
 
         # بررسی مجوز دسترسی
-        if not (request.user.is_admin or reservation.parking_lot.manager == request.user):
+        if not (
+                request.user.is_admin or reservation.parking.manager == request.user):  # تغییر از parking_lot به parking
             return Response(
                 {'detail': _('You do not have permission to complete this reservation.')},
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        # بررسی وضعیت رزرو
-        if reservation.status != ParkingReservation.CONFIRMED:
+        # بررسی وضعیت رزرو - نیاز به تطبیق با StatusChoices در مدل ParkingReservation
+        if reservation.status != 'confirmed':  # مقدار متناسب با ReservationStatus
             return Response(
                 {'detail': _('Only confirmed reservations can be completed.')},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         # به‌روزرسانی وضعیت رزرو
-        reservation.status = ParkingReservation.COMPLETED
+        reservation.status = 'completed'  # مقدار متناسب با ReservationStatus
         reservation.save()
 
         # به‌روزرسانی وضعیت جای پارک
-        if reservation.spot and reservation.spot.status == ParkingSpot.RESERVED:
-            reservation.spot.status = ParkingSpot.AVAILABLE
+        if reservation.spot and reservation.spot.status == ParkingSlot.SlotStatus.RESERVED:  # تغییر به ParkingSlot.SlotStatus.RESERVED
+            reservation.spot.status = ParkingSlot.SlotStatus.AVAILABLE  # تغییر به ParkingSlot.SlotStatus.AVAILABLE
             reservation.spot.save()
 
         return Response(ParkingReservationSerializer(reservation).data)
