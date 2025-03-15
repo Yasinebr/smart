@@ -1,0 +1,88 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  # سرویس وب جنگو
+  web:
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  # سرویس وب سرور Nginx
+  nginx:
+    image: nginx:1.21
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - ./nginx/ssl:/etc/nginx/ssl
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+    restart: always
+
+  # سرویس پایگاه داده PostgreSQL
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    restart: always
+
+  # سرویس Redis برای کش و Celery
+  redis:
+    image: redis:6-alpine
+    restart: always
+
+  # سرویس Celery برای پردازش ناهمگام
+  celery:
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile
+    command: celery -A config worker -l info
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+    restart: always
+
+  # سرویس Celery Beat برای زمان‌بندی تسک‌ها
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: docker/Dockerfile
+    command: celery -A config beat -l info
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - redis
+      - celery
+    restart: always
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
