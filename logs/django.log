@@ -1968,3 +1968,15 @@ WARNING 2025-03-15 17:26:56,884 log 17724 8432 Not Found: /accounts/login/
 WARNING 2025-03-15 17:26:56,885 basehttp 17724 8432 "GET /accounts/login/?next=/swagger/ HTTP/1.1" 404 2901
 WARNING 2025-03-15 17:27:17,684 log 17724 8432 Not Found: /accounts/login/
 WARNING 2025-03-15 17:27:17,684 basehttp 17724 8432 "GET /accounts/login/ HTTP/1.1" 404 2886
+INFO 2025-03-16 12:43:31,529 autoreload 4524 10676 Watching for file changes with StatReloader
+WARNING 2025-03-16 12:43:39,937 log 4524 1724 Not Found: /
+WARNING 2025-03-16 12:43:39,938 basehttp 4524 1724 "GET / HTTP/1.1" 404 2823
+WARNING 2025-03-16 12:43:40,245 log 4524 1724 Not Found: /favicon.ico
+WARNING 2025-03-16 12:43:40,246 basehttp 4524 1724 "GET /favicon.ico HTTP/1.1" 404 2874
+INFO 2025-03-16 12:43:51,634 basehttp 4524 1724 "GET /redoc HTTP/1.1" 301 0
+INFO 2025-03-16 12:43:51,674 basehttp 4524 11412 "GET /redoc/ HTTP/1.1" 200 941
+INFO 2025-03-16 12:43:51,703 basehttp 4524 11412 "GET /static/drf-yasg/style.css HTTP/1.1" 304 0
+INFO 2025-03-16 12:43:51,706 basehttp 4524 16656 "GET /static/drf-yasg/insQ.min.js HTTP/1.1" 304 0
+INFO 2025-03-16 12:43:51,706 basehttp 4524 11412 "GET /static/drf-yasg/redoc/redoc.min.js HTTP/1.1" 304 0
+INFO 2025-03-16 12:43:51,707 basehttp 4524 5428 "GET /static/drf-yasg/redoc-init.js HTTP/1.1" 304 0
+INFO 2025-03-16 12:43:51,981 basehttp 4524 5428 "GET /redoc/?format=openapi HTTP/1.1" 200 72190
