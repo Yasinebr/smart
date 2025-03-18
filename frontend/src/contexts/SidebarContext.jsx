@@ -1,37 +1,55 @@
 // src/contexts/SidebarContext.jsx
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-export const SidebarContext = createContext();
+// ایجاد کانتکست سایدبار
+const SidebarContext = createContext();
 
+// ارائه دهنده کانتکست سایدبار
 export const SidebarProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Toggle sidebar function
+  // باز و بسته کردن سایدبار
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
 
-  // Close sidebar when window is resized to larger than lg breakpoint
+  // بستن سایدبار
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
+
+  // باز کردن سایدبار
+  const openSidebar = () => {
+    setIsOpen(true);
+  };
+
+  // بستن سایدبار در نمایشگرهای کوچک با تغییر اندازه
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) {
+      if (window.innerWidth < 768 && isOpen) {
         setIsOpen(false);
       }
     };
 
     window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [isOpen]);
 
-    // Clean up event listener
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const value = {
+    isOpen,
+    toggleSidebar,
+    closeSidebar,
+    openSidebar,
+  };
 
   return (
-    <SidebarContext.Provider value={{ isOpen, toggleSidebar }}>
+    <SidebarContext.Provider value={value}>
       {children}
     </SidebarContext.Provider>
   );
 };
 
-export default SidebarContext;
+// هوک برای دسترسی به وضعیت سایدبار
+export const useSidebar = () => {
+  return useContext(SidebarContext);
+};

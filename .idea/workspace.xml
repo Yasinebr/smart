@@ -5,203 +5,92 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20f65bff-0c4a-4bd3-b4de-730dbae6d42f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.eslintrc.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.prettierrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/jsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/postcss.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/icons/car.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/icons/parking.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/icons/payment.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/icons/report.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/icons/user.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/bg-pattern.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/login-bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/logo-white.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/not-found.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/assets/images/parking-illustration.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/manifest.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/public/robots.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/ai.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/entry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/parking.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/payment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/report.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/api/vehicle.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_buttons.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_cards.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_forms.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_layout.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_mixins.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_tables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_typography.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_utilities.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_variables.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/scss/main.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/auth/ForgotPasswordForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/auth/LoginForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/auth/RegisterForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/auth/ResetPasswordForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Alert.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Badge.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Breadcrumbs.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Button.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Card.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/ConfirmDialog.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Dropdown.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/FormCheckbox.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/FormDatePicker.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/FormInput.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/FormRadio.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/FormSelect.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/ImageUpload.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Loader.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Modal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Navbar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/PageHeader.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Pagination.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/SearchBox.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Sidebar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Table.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/Tabs.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/OccupancyChart.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/ParkingMap.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/RecentActivities.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/RevenueChart.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/StatCard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/UpcomingReservations.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/VehicleStatus.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/VehicleTypeChart.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingDetails.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingRateForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingReservationForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingSlotManager.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingSubscriptionForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/InvoiceDetails.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/InvoiceForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/InvoiceList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentDetails.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/payment/WalletDepositForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/DashboardEditor.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportScheduleForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportViewer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/WidgetConfig.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/ChangePasswordForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/ProfileForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/UserDetails.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/UserForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/UserList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/user/WalletTransactions.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/ParkingSessionList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/PlateRecognition.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleDetails.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleEntryExit.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleList.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/contexts/NotificationContext.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/contexts/SidebarContext.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/contexts/ThemeContext.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useApi.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useAuth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useDebounce.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useLocalStorage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useMediaQuery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/useOutsideClick.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/usePagination.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ai/FaceVerificationPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/ai/PlateRecognitionPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/auth/ForgotPasswordPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/auth/LoginPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/auth/RegisterPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/auth/ResetPasswordPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/AdminDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/ManagerDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/UserDashboard.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/AboutPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/ContactPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/ErrorPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/FAQPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/HomePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/NotFoundPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/PrivacyPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/misc/TermsPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ParkingCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ParkingDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ParkingEditPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ParkingListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ParkingRatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ReservationCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/ReservationListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/SubscriptionCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/parking/SubscriptionListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/payment/InvoiceCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/payment/InvoiceDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/payment/InvoiceListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/payment/PaymentDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/payment/PaymentListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/DashboardListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/DashboardViewPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/ReportCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/ReportListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/ReportViewPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/report/ScheduleListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/settings/APISettings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/settings/GeneralSettings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/settings/NotificationSettings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/settings/SecuritySettings.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/ProfilePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserEditPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/user/WalletPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/EntryExitPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/SessionListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/VehicleCreatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/VehicleDetailPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/VehicleEditPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/vehicle/VehicleListPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/authActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/parkingActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/paymentActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/reportActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/userActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/actions/vehicleActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/authReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/parkingReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/paymentReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/reportReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/userReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/store/reducers/vehicleReducer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/ManagerRoute.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/NotificationItem.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/common/PrivateRoute.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ReservationForm.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/parking/ReservationList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportView.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/constants.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/formatters.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/helpers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/validators.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/ai.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/ai.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/parking.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/parking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/payment.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/payment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/report.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/report.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/vehicle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/vehicle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_buttons.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_cards.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_cards.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_forms.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_layout.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_mixins.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_tables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_typography.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_typography.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_utilities.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/_variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/scss/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/main.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/LoginForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/LoginForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/auth/RegisterForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/auth/RegisterForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Alert.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Alert.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Sidebar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/Sidebar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/OccupancyChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/OccupancyChart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/ParkingMap.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/ParkingMap.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/RecentActivities.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/RecentActivities.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/RevenueChart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/RevenueChart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/dashboard/StatCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/dashboard/StatCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/parking/ParkingForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/parking/ParkingList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/parking/ParkingList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/parking/ParkingReservationForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/scss/font.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/payment/InvoiceList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/payment/InvoiceList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/payment/PaymentDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/payment/PaymentForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/payment/PaymentList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/payment/PaymentList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/report/ReportForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/report/ReportList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/report/ReportList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/report/ReportViewer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/common/AdminRoute.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/ProfileForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/ProfileForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/UserDetails.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/UserDetails.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/UserForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/UserForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/user/UserList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/user/UserList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/vehicle/ParkingSessionList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/ParkingSessionList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/vehicle/PlateRecognition.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/PlateRecognition.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/vehicle/VehicleList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/NotificationContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/NotificationContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/SidebarContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/SidebarContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/ThemeContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/ThemeContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useAuth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useAuth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ai/FaceVerificationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ai/FaceVerificationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ai/PlateRecognitionPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ai/PlateRecognitionPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/ForgotPasswordPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/ForgotPasswordPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/LoginPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/LoginPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/RegisterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/RegisterPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/ResetPasswordPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/auth/ResetPasswordPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/dashboard/AdminDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/AdminDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/dashboard/UserDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/dashboard/UserDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/misc/AboutPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/misc/AboutPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/misc/ContactPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/misc/ContactPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/misc/ErrorPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/misc/ErrorPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/misc/HomePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/misc/HomePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/misc/NotFoundPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/misc/NotFoundPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/UserCreatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserCreatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/UserEditPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserEditPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/user/UserListPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/user/UserListPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/routes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/django.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/django.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,6 +106,7 @@
       <list>
         <option value="Python Script" />
         <option value="JSX File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -239,6 +129,8 @@
     &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/open ai/smart-parking-system/frontend/src&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -253,6 +145,11 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\open ai\smart-parking-system\frontend\src" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="smart-parking-system" type="Python.DjangoServer" factoryName="Django server">
       <module name="smart-parking-system" />
@@ -309,7 +206,10 @@
       <workItem from="1742103963513" duration="4007000" />
       <workItem from="1742113125763" duration="1077000" />
       <workItem from="1742114236587" duration="761000" />
-      <workItem from="1742115061834" duration="12278000" />
+      <workItem from="1742115061834" duration="12986000" />
+      <workItem from="1742191645431" duration="1897000" />
+      <workItem from="1742194760761" duration="14991000" />
+      <workItem from="1742277692870" duration="1305000" />
     </task>
     <servers />
   </component>

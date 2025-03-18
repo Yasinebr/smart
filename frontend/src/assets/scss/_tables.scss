@@ -1,0 +1,415 @@
+/* src/assets/scss/_tables.scss */
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+  border-top: 1px solid var(--card-border-color);
+}
+
+.table thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid var(--card-border-color);
+  font-weight: 600;
+  color: var(--text-color-light);
+  text-align: right;
+}
+
+.table tbody + tbody {
+  border-top: 2px solid var(--card-border-color);
+}
+
+.table-hover tbody tr:hover {
+  background-color: var(--bg-color-light);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.table-bordered {
+  border: 1px solid var(--card-border-color);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid var(--card-border-color);
+}
+
+.table-sm th,
+.table-sm td {
+  padding: 0.3rem;
+}
+
+.table .thead-dark th {
+  color: #fff;
+  background-color: var(--secondary-color-dark);
+  border-color: var(--secondary-color-dark);
+}
+
+.table .thead-light th {
+  color: var(--text-color);
+  background-color: var(--bg-color-light);
+  border-color: var(--card-border-color);
+}
+
+/* تعریف رنگ‌های سطر در جدول */
+.table .table-primary {
+  background-color: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.table .table-secondary {
+  background-color: rgba(var(--secondary-color-rgb), 0.1);
+}
+
+.table .table-success {
+  background-color: rgba(var(--success-color-rgb), 0.1);
+}
+
+.table .table-info {
+  background-color: rgba(var(--info-color-rgb), 0.1);
+}
+
+.table .table-warning {
+  background-color: rgba(var(--warning-color-rgb), 0.1);
+}
+
+.table .table-danger {
+  background-color: rgba(var(--danger-color-rgb), 0.1);
+}
+
+.table .table-light {
+  background-color: var(--bg-color-light);
+}
+
+.table .table-dark {
+  background-color: var(--text-color);
+  color: #fff;
+}
+
+/* نوار پیشرفت */
+.progress {
+  display: flex;
+  height: 0.5rem;
+  overflow: hidden;
+  font-size: var(--font-size-sm);
+  background-color: var(--bg-color-light);
+  border-radius: var(--border-radius);
+}
+
+.progress-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  background-color: var(--primary-color);
+  transition: width 0.6s ease;
+}
+
+.progress-bar-striped {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+
+.progress-bar-animated {
+  animation: progress-bar-stripes 1s linear infinite;
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+/* پیمایش جدول */
+.pagination {
+  display: flex;
+  padding-right: 0;
+  list-style: none;
+  border-radius: var(--border-radius);
+}
+
+.page-item:first-child .page-link {
+  margin-right: 0;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.page-item:last-child .page-link {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.page-item.disabled .page-link {
+  color: var(--text-color-lighter);
+  pointer-events: none;
+  cursor: auto;
+  background-color: var(--card-bg-color);
+  border-color: var(--card-border-color);
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  margin-right: -1px;
+  line-height: 1.25;
+  color: var(--primary-color);
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--card-border-color);
+  cursor: pointer;
+}
+
+.page-link:hover {
+  z-index: 2;
+  color: var(--primary-color-dark);
+  text-decoration: none;
+  background-color: var(--bg-color-light);
+  border-color: var(--card-border-color);
+}
+
+.page-link:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(var(--primary-color-rgb), 0.25);
+}
+
+/* اندازه‌های مختلف پیمایش */
+.pagination-lg .page-link {
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-lg);
+  line-height: 1.5;
+}
+
+.pagination-lg .page-item:first-child .page-link {
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.pagination-lg .page-item:last-child .page-link {
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+
+.pagination-sm .page-link {
+  padding: 0.25rem 0.5rem;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+}
+
+.pagination-sm .page-item:first-child .page-link {
+  border-top-right-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+}
+
+.pagination-sm .page-item:last-child .page-link {
+  border-top-left-radius: 0.2rem;
+  border-bottom-left-radius: 0.2rem;
+}
+
+/* فیلترهای جدول */
+.table-filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.table-filter {
+  flex: 0 0 auto;
+  max-width: 200px;
+}
+
+.table-filter-label {
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.table-bulk-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.table-export-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* پنل جدول */
+.table-panel {
+  margin-bottom: 1rem;
+}
+
+.table-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--card-border-color);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.table-panel-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.table-panel-body {
+  border: 1px solid var(--card-border-color);
+  border-top: none;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.table-panel .table {
+  margin-bottom: 0;
+}
+
+.table-panel-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--card-border-color);
+  border-top: none;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.table-summary {
+  display: flex;
+  gap: 1rem;
+}
+
+.table-summary-item {
+  display: flex;
+  align-items: center;
+}
+
+.table-summary-label {
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+.table-summary-value {
+  font-weight: 700;
+}
+
+/* سلول‌های جدول با عملیات */
+.table-cell-actions {
+  white-space: nowrap;
+}
+
+.table-cell-status {
+  display: flex;
+  align-items: center;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+}
+
+.status-indicator.active {
+  background-color: var(--success-color);
+}
+
+.status-indicator.inactive {
+  background-color: var(--danger-color);
+}
+
+.status-indicator.pending {
+  background-color: var(--warning-color);
+}
+
+/* جدول‌های موبایل */
+@media (max-width: 767.98px) {
+  .table-responsive-mobile {
+    display: block;
+  }
+
+  .table-responsive-mobile thead {
+    display: none;
+  }
+
+  .table-responsive-mobile tbody {
+    display: block;
+  }
+
+  .table-responsive-mobile tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+  }
+
+  .table-responsive-mobile tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+  }
+
+  .table-responsive-mobile tbody td:before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-align: right;
+    flex: 1;
+  }
+
+  .table-responsive-mobile tbody td:not(:last-child) {
+    border-bottom: 1px dashed var(--card-border-color);
+  }
+}

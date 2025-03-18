@@ -1,143 +1,125 @@
 // src/components/auth/LoginForm.jsx
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../../contexts/AuthContext';
-import Alert from '../common/Alert';
-import Button from '../common/Button';
-import FormInput from '../common/FormInput';
-import { Mail, Lock } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import useAuth from '../../hooks/useAuth';
+import { useNotification } from '../../contexts/NotificationContext';
 
-export default function LoginForm  ()  {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState('');
+// طرح اعتبارسنجی فرم ورود
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('ایمیل وارد شده معتبر نیست')
+    .required('لطفاً ایمیل خود را وارد کنید'),
+  password: Yup.string()
+    .required('لطفاً رمز عبور خود را وارد کنید'),
+});
 
-  const { login } = useContext(AuthContext);
+const LoginForm = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
+  const { notify } = useNotification();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!email) {
-      newErrors.email = 'ایمیل الزامی است';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'ایمیل معتبر نیست';
-    }
-
-    if (!password) {
-      newErrors.password = 'رمز عبور الزامی است';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validate()) {
-      return;
-    }
-
-    setLoading(true);
-    setAlertMessage('');
-
+  // ارسال فرم ورود
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    setIsLoading(true);
     try {
-      await login(email, password);
-      navigate('/dashboard');
+      const result = await login(values.email, values.password);
+      if (result.success) {
+        notify.success('ورود موفقیت‌آمیز بود!');
+        navigate('/dashboard');
+      } else {
+        setErrors({ general: result.error });
+        notify.error(result.error || 'خطا در ورود به سیستم');
+      }
     } catch (error) {
-      console.error('Login error:', error);
-      setAlertType('error');
-      setAlertMessage(
-        error.response?.data?.detail ||
-        'خطا در ورود به سیستم. لطفاً دوباره تلاش کنید.'
-      );
+      setErrors({ general: 'خطا در ارتباط با سرور' });
+      notify.error('خطا در ارتباط با سرور');
     } finally {
-      setLoading(false);
+      setSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
-      <h2 className="text-2xl font-bold text-center mb-6">ورود به سیستم</h2>
-
-      {alertMessage && (
-        <Alert
-          type={alertType}
-          message={alertMessage}
-          onClose={() => setAlertMessage('')}
-          className="mb-4"
-        />
-      )}
-
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <FormInput
-            label="ایمیل"
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="ایمیل خود را وارد کنید"
-            error={errors.email}
-            icon={<Mail size={20} />}
-            required
-          />
-        </div>
-
-        <div className="mb-6">
-          <FormInput
-            label="رمز عبور"
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="رمز عبور خود را وارد کنید"
-            error={errors.password}
-            icon={<Lock size={20} />}
-            required
-          />
-        </div>
-
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="remember"
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-            />
-            <label htmlFor="remember" className="mr-2 text-sm text-gray-600">
-              مرا به خاطر بسپار
-            </label>
-          </div>
-          <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-800">
-            رمز عبور را فراموش کرده‌اید؟
-          </Link>
-        </div>
-
-        <Button
-          type="submit"
-          fullWidth
-          loading={loading}
-          className="bg-blue-600 hover:bg-blue-700 text-white"
-        >
-          ورود
-        </Button>
-      </form>
-
-      <div className="text-center mt-6">
-        <p className="text-gray-600">
-          حساب کاربری ندارید؟{' '}
-          <Link to="/register" className="text-blue-600 hover:text-blue-800">
-            ثبت‌نام کنید
-          </Link>
-        </p>
+    <div className="login-form-container">
+      <div className="login-form-header">
+        <img src="/assets/images/logo.svg" alt="Smart Parking System Logo" />
+        <h2>ورود به سیستم پارکینگ هوشمند</h2>
       </div>
+
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={LoginSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form className="login-form">
+            {errors.general && (
+              <div className="alert alert-danger">{errors.general}</div>
+            )}
+
+            <div className="form-group">
+              <label htmlFor="email">ایمیل</label>
+              <Field
+                type="email"
+                name="email"
+                id="email"
+                className={`form-control ${errors.email && touched.email ? 'is-invalid' : ''}`}
+                placeholder="ایمیل خود را وارد کنید"
+              />
+              <ErrorMessage name="email" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">رمز عبور</label>
+              <Field
+                type="password"
+                name="password"
+                id="password"
+                className={`form-control ${errors.password && touched.password ? 'is-invalid' : ''}`}
+                placeholder="رمز عبور خود را وارد کنید"
+              />
+              <ErrorMessage name="password" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group form-check">
+              <Field type="checkbox" name="remember" id="remember" className="form-check-input" />
+              <label className="form-check-label" htmlFor="remember">
+                مرا به خاطر بسپار
+              </label>
+            </div>
+
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={isSubmitting || isLoading}
+              >
+                {isSubmitting || isLoading ? (
+                  <span>
+                    <i className="fas fa-spinner fa-spin"></i> در حال پردازش...
+                  </span>
+                ) : (
+                  'ورود'
+                )}
+              </button>
+            </div>
+
+            <div className="login-form-footer">
+              <Link to="/forgot-password" className="forgot-password-link">
+                رمز عبور خود را فراموش کرده‌اید؟
+              </Link>
+              <div className="register-link">
+                حساب کاربری ندارید؟ <Link to="/register">ثبت‌نام</Link>
+              </div>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };
+
+export default LoginForm;

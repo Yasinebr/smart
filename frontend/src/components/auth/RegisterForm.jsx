@@ -1,259 +1,189 @@
 // src/components/auth/RegisterForm.jsx
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../../contexts/AuthContext';
-import Alert from '../common/Alert';
-import Button from '../common/Button';
-import FormInput from '../common/FormInput';
-import { Mail, Lock, User, Phone } from 'lucide-react';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { registerUser } from '../../api/auth';
+import { useNotification } from '../../contexts/NotificationContext';
+
+// طرح اعتبارسنجی فرم ثبت‌نام
+const RegisterSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('ایمیل وارد شده معتبر نیست')
+    .required('لطفاً ایمیل خود را وارد کنید'),
+  password: Yup.string()
+    .min(8, 'رمز عبور باید حداقل 8 کاراکتر باشد')
+    .required('لطفاً رمز عبور خود را وارد کنید'),
+  confirm_password: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'رمزهای عبور مطابقت ندارند')
+    .required('لطفاً تکرار رمز عبور را وارد کنید'),
+  first_name: Yup.string()
+    .required('لطفاً نام خود را وارد کنید'),
+  last_name: Yup.string()
+    .required('لطفاً نام خانوادگی خود را وارد کنید'),
+  phone_number: Yup.string()
+    .matches(/^[0-9]{11}$/, 'شماره تلفن باید 11 رقم باشد'),
+});
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    password: '',
-    confirm_password: '',
-    role: 'customer' // پیش‌فرض: مشتری عادی
-  });
-
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState('');
-
-  const { register } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { notify } = useNotification();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  const validate = () => {
-    const newErrors = {};
-
-    // ایمیل
-    if (!formData.email) {
-      newErrors.email = 'ایمیل الزامی است';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'فرمت ایمیل صحیح نیست';
-    }
-
-    // نام
-    if (!formData.first_name) {
-      newErrors.first_name = 'نام الزامی است';
-    }
-
-    // نام خانوادگی
-    if (!formData.last_name) {
-      newErrors.last_name = 'نام خانوادگی الزامی است';
-    }
-
-    // شماره تلفن
-    if (formData.phone_number && !/^(?:\+98|0)?9\d{9}$/.test(formData.phone_number)) {
-      newErrors.phone_number = 'شماره موبایل معتبر نیست (مثال: 09123456789)';
-    }
-
-    // رمز عبور
-    if (!formData.password) {
-      newErrors.password = 'رمز عبور الزامی است';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'رمز عبور باید حداقل 8 کاراکتر باشد';
-    }
-
-    // تأیید رمز عبور
-    if (!formData.confirm_password) {
-      newErrors.confirm_password = 'تأیید رمز عبور الزامی است';
-    } else if (formData.password !== formData.confirm_password) {
-      newErrors.confirm_password = 'رمز عبور و تأیید آن مطابقت ندارند';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!validate()) {
-      return;
-    }
-
-    setLoading(true);
-    setAlertMessage('');
-
+  // ارسال فرم ثبت‌نام
+  const handleSubmit = async (values, { setSubmitting, setErrors }) => {
+    setIsLoading(true);
     try {
-      await register(formData);
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Registration error:', error);
+      const userData = {
+        ...values,
+        role: 'customer', // نقش پیش‌فرض برای کاربران جدید
+      };
 
-      // نمایش خطاهای API
-      if (error.response?.data) {
-        const apiErrors = error.response.data;
-        const errorFields = {};
-
-        // پردازش خطاهای فیلد به فیلد
-        for (const [key, value] of Object.entries(apiErrors)) {
-          if (Array.isArray(value)) {
-            errorFields[key] = value[0];
-          } else if (typeof value === 'string') {
-            errorFields[key] = value;
-          }
-        }
-
-        if (Object.keys(errorFields).length > 0) {
-          setErrors(errorFields);
-        } else {
-          setAlertType('error');
-          setAlertMessage(error.response.data.detail || 'خطا در ثبت‌نام');
-        }
-      } else {
-        setAlertType('error');
-        setAlertMessage('خطا در ثبت‌نام. لطفاً دوباره تلاش کنید.');
+      const response = await registerUser(userData);
+      if (response.data) {
+        notify.success('ثبت‌نام با موفقیت انجام شد. لطفاً وارد شوید.');
+        navigate('/login');
       }
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'خطا در ثبت‌نام';
+      setErrors({ general: errorMessage });
+      notify.error(errorMessage);
     } finally {
-      setLoading(false);
+      setSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-8 w-full max-w-md">
-      <h2 className="text-2xl font-bold text-center mb-6">ثبت‌نام در سیستم</h2>
-
-      {alertMessage && (
-        <Alert
-          type={alertType}
-          message={alertMessage}
-          onClose={() => setAlertMessage('')}
-          className="mb-4"
-        />
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* ایمیل */}
-        <FormInput
-          label="ایمیل"
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="ایمیل خود را وارد کنید"
-          error={errors.email}
-          icon={<Mail size={20} />}
-          required
-        />
-
-        {/* نام */}
-        <FormInput
-          label="نام"
-          type="text"
-          id="first_name"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-          placeholder="نام خود را وارد کنید"
-          error={errors.first_name}
-          icon={<User size={20} />}
-          required
-        />
-
-        {/* نام خانوادگی */}
-        <FormInput
-          label="نام خانوادگی"
-          type="text"
-          id="last_name"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-          placeholder="نام خانوادگی خود را وارد کنید"
-          error={errors.last_name}
-          icon={<User size={20} />}
-          required
-        />
-
-        {/* شماره تلفن */}
-        <FormInput
-          label="شماره موبایل"
-          type="tel"
-          id="phone_number"
-          name="phone_number"
-          value={formData.phone_number}
-          onChange={handleChange}
-          placeholder="شماره موبایل خود را وارد کنید"
-          error={errors.phone_number}
-          icon={<Phone size={20} />}
-        />
-
-        {/* رمز عبور */}
-        <FormInput
-          label="رمز عبور"
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="رمز عبور خود را وارد کنید"
-          error={errors.password}
-          icon={<Lock size={20} />}
-          required
-        />
-
-        {/* تأیید رمز عبور */}
-        <FormInput
-          label="تأیید رمز عبور"
-          type="password"
-          id="confirm_password"
-          name="confirm_password"
-          value={formData.confirm_password}
-          onChange={handleChange}
-          placeholder="رمز عبور خود را مجدداً وارد کنید"
-          error={errors.confirm_password}
-          icon={<Lock size={20} />}
-          required
-        />
-
-        {/* قوانین و مقررات */}
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="accept_terms"
-            className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-            required
-          />
-          <label htmlFor="accept_terms" className="mr-2 text-sm text-gray-600">
-            <span>من با </span>
-            <Link to="/terms" className="text-blue-600 hover:text-blue-800">
-              قوانین و مقررات
-            </Link>
-            <span> موافقم</span>
-          </label>
-        </div>
-
-        <Button
-          type="submit"
-          fullWidth
-          loading={loading}
-          className="bg-blue-600 hover:bg-blue-700 text-white mt-6"
-        >
-          ثبت‌نام
-        </Button>
-      </form>
-
-      <div className="text-center mt-6">
-        <p className="text-gray-600">
-          قبلاً ثبت‌نام کرده‌اید؟{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-800">
-            ورود به سیستم
-          </Link>
-        </p>
+    <div className="register-form-container">
+      <div className="register-form-header">
+        <img src="/assets/images/logo.svg" alt="Smart Parking System Logo" />
+        <h2>ثبت‌نام در سیستم پارکینگ هوشمند</h2>
       </div>
+
+      <Formik
+        initialValues={{
+          email: '',
+          password: '',
+          confirm_password: '',
+          first_name: '',
+          last_name: '',
+          phone_number: '',
+        }}
+        validationSchema={RegisterSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ errors, touched, isSubmitting }) => (
+          <Form className="register-form">
+            {errors.general && (
+              <div className="alert alert-danger">{errors.general}</div>
+            )}
+
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label htmlFor="first_name">نام</label>
+                <Field
+                  type="text"
+                  name="first_name"
+                  id="first_name"
+                  className={`form-control ${errors.first_name && touched.first_name ? 'is-invalid' : ''}`}
+                  placeholder="نام خود را وارد کنید"
+                />
+                <ErrorMessage name="first_name" component="div" className="invalid-feedback" />
+              </div>
+
+              <div className="form-group col-md-6">
+                <label htmlFor="last_name">نام خانوادگی</label>
+                <Field
+                  type="text"
+                  name="last_name"
+                  id="last_name"
+                  className={`form-control ${errors.last_name && touched.last_name ? 'is-invalid' : ''}`}
+                  placeholder="نام خانوادگی خود را وارد کنید"
+                />
+                <ErrorMessage name="last_name" component="div" className="invalid-feedback" />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">ایمیل</label>
+              <Field
+                type="email"
+                name="email"
+                id="email"
+                className={`form-control ${errors.email && touched.email ? 'is-invalid' : ''}`}
+                placeholder="ایمیل خود را وارد کنید"
+              />
+              <ErrorMessage name="email" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phone_number">شماره تلفن</label>
+              <Field
+                type="text"
+                name="phone_number"
+                id="phone_number"
+                className={`form-control ${errors.phone_number && touched.phone_number ? 'is-invalid' : ''}`}
+                placeholder="شماره تلفن خود را وارد کنید"
+              />
+              <ErrorMessage name="phone_number" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">رمز عبور</label>
+              <Field
+                type="password"
+                name="password"
+                id="password"
+                className={`form-control ${errors.password && touched.password ? 'is-invalid' : ''}`}
+                placeholder="رمز عبور خود را وارد کنید"
+              />
+              <ErrorMessage name="password" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="confirm_password">تکرار رمز عبور</label>
+              <Field
+                type="password"
+                name="confirm_password"
+                id="confirm_password"
+                className={`form-control ${errors.confirm_password && touched.confirm_password ? 'is-invalid' : ''}`}
+                placeholder="رمز عبور خود را مجدداً وارد کنید"
+              />
+              <ErrorMessage name="confirm_password" component="div" className="invalid-feedback" />
+            </div>
+
+            <div className="form-group form-check">
+              <Field type="checkbox" name="terms" id="terms" className="form-check-input" />
+              <label className="form-check-label" htmlFor="terms">
+                با <Link to="/terms">قوانین و مقررات</Link> موافقم
+              </label>
+            </div>
+
+            <div className="form-group">
+              <button
+                type="submit"
+                className="btn btn-primary btn-block"
+                disabled={isSubmitting || isLoading}
+              >
+                {isSubmitting || isLoading ? (
+                  <span>
+                    <i className="fas fa-spinner fa-spin"></i> در حال پردازش...
+                  </span>
+                ) : (
+                  'ثبت‌نام'
+                )}
+              </button>
+            </div>
+
+            <div className="register-form-footer">
+              <div className="login-link">
+                قبلاً ثبت‌نام کرده‌اید؟ <Link to="/login">ورود</Link>
+              </div>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

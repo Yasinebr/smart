@@ -1,84 +1,93 @@
 // src/contexts/NotificationContext.jsx
-import React, { createContext, useState, useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { createContext, useState, useContext } from 'react';
 
-export const NotificationContext = createContext();
+// ایجاد کانتکست اعلان‌ها
+const NotificationContext = createContext();
 
+// ارائه دهنده کانتکست اعلان‌ها
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
 
-  // اضافه کردن اعلان جدید
-  const addNotification = useCallback((notification) => {
-    const id = notification.id || uuidv4();
+  // افزودن اعلان جدید
+  const addNotification = (notification) => {
+    const id = Math.random().toString(36).substring(2, 9);
     const newNotification = {
       id,
-      type: notification.type || 'info',
-      title: notification.title || '',
-      message: notification.message || '',
-      duration: notification.duration || 5000, // پیش‌فرض: 5 ثانیه
-      ...notification
+      ...notification,
+      timestamp: new Date(),
     };
 
-    setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
+    setNotifications((prev) => [newNotification, ...prev]);
 
-    // حذف خودکار اعلان بعد از زمان معین
-    if (newNotification.duration !== 0) {
-      setTimeout(() => {
-        removeNotification(id);
-      }, newNotification.duration);
+    // حذف خودکار اعلان بعد از مدت زمان مشخص شده
+    if (notification.autoDismiss !== false) {
+      const timeout = notification.timeout || 5000;
+      setTimeout(() => dismissNotification(id), timeout);
     }
 
     return id;
-  }, []);
-
-  // افزودن اعلان از نوع اطلاعات
-  const info = useCallback((message, options = {}) => {
-    return addNotification({ type: 'info', message, ...options });
-  }, [addNotification]);
-
-  // افزودن اعلان از نوع موفقیت
-  const success = useCallback((message, options = {}) => {
-    return addNotification({ type: 'success', message, ...options });
-  }, [addNotification]);
-
-  // افزودن اعلان از نوع هشدار
-  const warning = useCallback((message, options = {}) => {
-    return addNotification({ type: 'warning', message, ...options });
-  }, [addNotification]);
-
-  // افزودن اعلان از نوع خطا
-  const error = useCallback((message, options = {}) => {
-    return addNotification({ type: 'error', message, ...options });
-  }, [addNotification]);
+  };
 
   // حذف اعلان با شناسه
-  const removeNotification = useCallback((id) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notification) => notification.id !== id)
-    );
-  }, []);
+  const dismissNotification = (id) => {
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+  };
 
   // حذف همه اعلان‌ها
-  const clearAllNotifications = useCallback(() => {
+  const clearAllNotifications = () => {
     setNotifications([]);
-  }, []);
+  };
+
+  // انواع مختلف اعلان
+  const notify = {
+    success: (message, options = {}) =>
+      addNotification({ type: 'success', message, ...options }),
+    error: (message, options = {}) =>
+      addNotification({ type: 'error', message, ...options }),
+    warning: (message, options = {}) =>
+      addNotification({ type: 'warning', message, ...options }),
+    info: (message, options = {}) =>
+      addNotification({ type: 'info', message, ...options }),
+  };
+
+  const value = {
+    notifications,
+    addNotification,
+    dismissNotification,
+    clearAllNotifications,
+    notify,
+  };
 
   return (
-    <NotificationContext.Provider
-      value={{
-        notifications,
-        addNotification,
-        removeNotification,
-        clearAllNotifications,
-        info,
-        success,
-        warning,
-        error
-      }}
-    >
+    <NotificationContext.Provider value={value}>
       {children}
+      {/* کامپوننت نمایش اعلان‌ها */}
+      <div className="notifications-container">
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`notification notification-${notification.type}`}
+          >
+            <div className="notification-content">
+              {notification.title && (
+                <div className="notification-title">{notification.title}</div>
+              )}
+              <div className="notification-message">{notification.message}</div>
+            </div>
+            <button
+              className="notification-close"
+              onClick={() => dismissNotification(notification.id)}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+        ))}
+      </div>
     </NotificationContext.Provider>
   );
 };
 
-export default NotificationContext;
+// هوک برای دسترسی به اعلان‌ها
+export const useNotification = () => {
+  return useContext(NotificationContext);
+};

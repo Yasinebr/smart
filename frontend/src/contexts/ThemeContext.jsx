@@ -1,82 +1,47 @@
 // src/contexts/ThemeContext.jsx
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// تعریف تم‌های موجود
-const themes = {
-  light: {
-    name: 'light',
-    backgroundColor: 'bg-white',
-    textColor: 'text-gray-900',
-    primaryColor: 'text-blue-600',
-    secondaryColor: 'text-purple-600',
-  },
-  dark: {
-    name: 'dark',
-    backgroundColor: 'bg-gray-900',
-    textColor: 'text-gray-100',
-    primaryColor: 'text-blue-400',
-    secondaryColor: 'text-purple-400',
-  },
-  // می‌توانید تم‌های بیشتری نیز اضافه کنید
-};
+// ایجاد کانتکست تم
+const ThemeContext = createContext();
 
-export const ThemeContext = createContext();
-
+// ارائه دهنده کانتکست تم
 export const ThemeProvider = ({ children }) => {
-  // دریافت تم ذخیره شده در localStorage یا استفاده از تم پیش‌فرض
-  const [currentTheme, setCurrentTheme] = useState(() => {
+  // بررسی ترجیح کاربر از localStorage
+  const getInitialTheme = () => {
     const savedTheme = localStorage.getItem('theme');
-    return savedTheme && themes[savedTheme] ? savedTheme : 'light';
-  });
-
-  // تغییر تم فعال
-  const changeTheme = (themeName) => {
-    if (themes[themeName]) {
-      setCurrentTheme(themeName);
-      localStorage.setItem('theme', themeName);
+    if (savedTheme) {
+      return savedTheme === 'dark';
     }
+    // بررسی ترجیح سیستم کاربر
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   };
 
-  // تغییر خودکار به حالت تاریک بر اساس تنظیمات سیستم عامل
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const [isDarkMode, setIsDarkMode] = useState(getInitialTheme);
 
-    const handleChange = (e) => {
-      const systemPreference = e.matches ? 'dark' : 'light';
-      // فقط اگر کاربر تم را به صورت دستی تغییر نداده باشد، تم سیستم را اعمال می‌کنیم
-      if (!localStorage.getItem('theme')) {
-        setCurrentTheme(systemPreference);
-      }
-    };
-
-    // اعمال اولیه
-    if (!localStorage.getItem('theme')) {
-      handleChange(mediaQuery);
-    }
-
-    // لیسنر برای تغییرات
-    mediaQuery.addEventListener('change', handleChange);
-
-    // پاکسازی لیسنر
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, []);
-
-  // تغییر بین حالت روشن و تاریک
+  // تغییر وضعیت تم
   const toggleTheme = () => {
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    changeTheme(newTheme);
+    setIsDarkMode((prevMode) => !prevMode);
   };
 
-  // دریافت تمام ویژگی‌های تم فعلی
-  const theme = themes[currentTheme];
+  // ذخیره تم در localStorage و اعمال کلاس به html
+  useEffect(() => {
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
+  const value = {
+    isDarkMode,
+    toggleTheme,
+  };
 
   return (
-    <ThemeContext.Provider value={{ theme, currentTheme, changeTheme, toggleTheme, themes }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export default ThemeContext;
+// هوک برای دسترسی به تم
+export const useTheme = () => {
+  return useContext(ThemeContext);
+};

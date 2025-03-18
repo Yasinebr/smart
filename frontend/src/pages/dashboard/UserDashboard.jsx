@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Car, Calendar, CreditCard, MapPin, Clock, Info } from 'lucide-react';
-import AuthContext from '../../contexts/AuthContext';
-import NotificationContext from '../../contexts/NotificationContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useNotification } from '../../contexts/NotificationContext';
 import PageHeader from '../../components/common/PageHeader';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
@@ -14,7 +14,7 @@ import PaymentService from '../../api/payment';
 
 const UserDashboard = () => {
   const { currentUser = {} } = useContext(AuthContext);
-  const { error } = useContext(NotificationContext);
+  const { error } = useContext(useNotification);
 
   const [loading, setLoading] = useState(true);
   const [vehicles, setVehicles] = useState([]);

@@ -5,7 +5,8 @@ import PageHeader from '../../components/common/PageHeader';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
-import NotificationContext from '../../contexts/NotificationContext';
+import { useNotification } from '../../contexts/NotificationContext';
+
 import AIService from '../../api/ai';
 
 const FaceVerificationPage = () => {
@@ -21,7 +22,7 @@ const FaceVerificationPage = () => {
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
 
-  const { success, error } = useContext(NotificationContext);
+  const { success, error } = useContext(useNotification);
 
   // راه‌اندازی دوربین
   const startCamera = async () => {

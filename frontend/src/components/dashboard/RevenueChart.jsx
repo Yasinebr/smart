@@ -1,142 +1,156 @@
 // src/components/dashboard/RevenueChart.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
   Tooltip,
   Legend,
-  ResponsiveContainer
-} from 'recharts';
-import { ArrowUpRight, ArrowDownRight, Loader } from 'lucide-react';
-import Card from '../common/Card';
+} from 'chart.js';
 
-const RevenueChart = ({
-  data = [],
-  title = "نمودار درآمد",
-  period = "ماهانه",
-  loading = false,
-  totalRevenue = 0,
-  percentageChange = 0,
-  comparisonPeriod = "نسبت به ماه قبل"
-}) => {
-  const [activeFilter, setActiveFilter] = useState(period);
+// ثبت کامپوننت‌های مورد نیاز برای چارت
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
-  // فرمت‌دهی اعداد
-  const formatMoney = (amount) => {
-    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
+const RevenueChart = ({ data, period = 'monthly' }) => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
-  // تغییر فیلتر زمانی
-  const handleFilterChange = (newFilter) => {
-    setActiveFilter(newFilter);
-    // اینجا می‌توانید یک کال‌بک به کامپوننت والد داشته باشید
-  };
+  const [chartOptions, setChartOptions] = useState({});
 
-  // فرمت‌دهی تولتیپ‌های نمودار
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-white p-3 shadow-md rounded border border-gray-200">
-          <p className="font-bold text-gray-800">{label}</p>
-          <p className="text-sm text-green-600">
-            درآمد: {formatMoney(payload[0].value)} تومان
-          </p>
-        </div>
-      );
+  useEffect(() => {
+    if (data) {
+      // تنظیم داده‌های چارت بر اساس داده‌های دریافتی
+      setChartData({
+        labels: data.labels || [],
+        datasets: [
+          {
+            label: 'درآمد',
+            data: data.values || [],
+            fill: false,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            tension: 0.4,
+          },
+        ],
+      });
+
+      // تنظیمات چارت
+      setChartOptions({
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+            labels: {
+              boxWidth: 15,
+              usePointStyle: true,
+              font: {
+                size: 12,
+              },
+            },
+          },
+          title: {
+            display: true,
+            text: 'نمودار درآمد',
+            font: {
+              size: 16,
+            },
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                  label += new Intl.NumberFormat('fa-IR', {
+                    style: 'currency',
+                    currency: 'IRR',
+                    minimumFractionDigits: 0,
+                  }).format(context.parsed.y);
+                }
+                return label;
+              }
+            }
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: 'rgba(0, 0, 0, 0.05)',
+            },
+            ticks: {
+              callback: function(value) {
+                return new Intl.NumberFormat('fa-IR', {
+                  style: 'currency',
+                  currency: 'IRR',
+                  minimumFractionDigits: 0,
+                }).format(value);
+              }
+            }
+          },
+        },
+      });
     }
-    return null;
-  };
+  }, [data, period]);
 
   return (
-    <Card
-      title={title}
-      actions={
-        <div className="flex space-x-2 space-x-reverse">
-          <button
-            className={`px-3 py-1 text-xs rounded-md ${activeFilter === 'هفتگی' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}
-            onClick={() => handleFilterChange('هفتگی')}
-          >
-            هفتگی
-          </button>
-          <button
-            className={`px-3 py-1 text-xs rounded-md ${activeFilter === 'ماهانه' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}
-            onClick={() => handleFilterChange('ماهانه')}
-          >
-            ماهانه
-          </button>
-          <button
-            className={`px-3 py-1 text-xs rounded-md ${activeFilter === 'سالانه' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}
-            onClick={() => handleFilterChange('سالانه')}
-          >
-            سالانه
-          </button>
+    <div className="revenue-chart">
+      <div className="card">
+        <div className="card-header">
+          <h3 className="card-title">نمودار درآمد</h3>
+          <div className="card-actions">
+            <div className="btn-group">
+              <button className={`btn ${period === 'weekly' ? 'btn-primary' : 'btn-outline-primary'}`}>
+                هفتگی
+              </button>
+              <button className={`btn ${period === 'monthly' ? 'btn-primary' : 'btn-outline-primary'}`}>
+                ماهانه
+              </button>
+              <button className={`btn ${period === 'yearly' ? 'btn-primary' : 'btn-outline-primary'}`}>
+                سالانه
+              </button>
+            </div>
+          </div>
         </div>
-      }
-    >
-      {/* نمایش درآمد کل و درصد تغییرات */}
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <div className="text-sm text-gray-500">درآمد کل</div>
-          <div className="text-2xl font-bold">{formatMoney(totalRevenue)} تومان</div>
-        </div>
-        <div className={`flex items-center ${percentageChange >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-          {percentageChange >= 0 ?
-            <ArrowUpRight className="h-5 w-5 mr-1" /> :
-            <ArrowDownRight className="h-5 w-5 mr-1" />
-          }
-          <span className="font-medium">{Math.abs(percentageChange)}%</span>
-          <span className="text-xs text-gray-500 mr-1">{comparisonPeriod}</span>
+        <div className="card-body">
+          <div className="chart-container">
+            {data ? (
+              <Line data={chartData} options={chartOptions} />
+            ) : (
+              <div className="loading-chart">
+                <i className="fas fa-spinner fa-spin"></i>
+                <p>در حال بارگذاری نمودار...</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* نمودار */}
-      {loading ? (
-        <div className="h-80 flex items-center justify-center">
-          <Loader className="h-8 w-8 text-blue-600 animate-spin" />
-        </div>
-      ) : (
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data}
-              margin={{
-                top: 5,
-                right: 5,
-                left: 5,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis
-                dataKey="name"
-                tick={{ fontSize: 12 }}
-                axisLine={{ stroke: '#E5E7EB' }}
-                tickLine={false}
-              />
-              <YAxis
-                tickFormatter={(value) => `${value / 1000}K`}
-                tick={{ fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="درآمد"
-                stroke="#3B82F6"
-                strokeWidth={2}
-                activeDot={{ r: 8 }}
-                dot={{ r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-    </Card>
+    </div>
   );
 };
 

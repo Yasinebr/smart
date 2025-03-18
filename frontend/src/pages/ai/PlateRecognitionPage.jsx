@@ -5,8 +5,9 @@ import PageHeader from '../../components/common/PageHeader';
 import Card from '../../components/common/Card';
 import Button from '../../components/common/Button';
 import Loader from '../../components/common/Loader';
-import NotificationContext from '../../contexts/NotificationContext';
-import AIService from '../../api/ai';
+import { useNotification } from '../../contexts/NotificationContext';
+import { detectFace, detectLicensePlate } from '../../api/ai';
+
 
 const PlateRecognitionPage = () => {
   const [image, setImage] = useState(null);
@@ -20,7 +21,7 @@ const PlateRecognitionPage = () => {
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
 
-  const { success, error } = useContext(NotificationContext);
+  const { success, error } = useContext(useNotification);
 
   // راه‌اندازی دوربین
   const startCamera = async () => {
@@ -106,7 +107,7 @@ const PlateRecognitionPage = () => {
     setResult(null);
 
     try {
-      const response = await AIService.detectLicensePlate(image);
+      const response = await detectLicensePlate.detectLicensePlate(image);
       setResult(response.data);
       success('پلاک با موفقیت تشخیص داده شد');
     } catch (err) {
@@ -127,7 +128,7 @@ const PlateRecognitionPage = () => {
     setProcessing(true);
 
     try {
-      const response = await AIService.saveLicensePlateDetection({
+      const response = await detectFace.saveLicensePlateDetection({
         image: image,
         // اینجا می‌توانید شناسه خودرو یا جلسه پارکینگ را اضافه کنید
       });
