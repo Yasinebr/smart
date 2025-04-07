@@ -16,7 +16,7 @@ class IsParkingManager(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.user and request.user.is_authenticated and request.user.is_parking_manager
+        return request.user and request.user.is_authenticated and request.user.is_parking_manager and request.user.groups.filter(name='ParkingManager').exists()
 
 
 class IsCustomer(permissions.BasePermission):

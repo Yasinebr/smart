@@ -1,4 +1,6 @@
 from rest_framework import viewsets, generics, status, permissions
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -12,6 +14,7 @@ from .serializers import (
 )
 from ..models import UserVehicle
 from utils.permissions import IsAdmin
+from rest_framework.viewsets import ModelViewSet
 
 User = get_user_model()
 
@@ -108,6 +111,11 @@ class UserViewSet(viewsets.ModelViewSet):
 
         user_vehicles = UserVehicle.objects.filter(user=user)
         serializer = UserVehicleSerializer(user_vehicles, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        serializer = self.get_serializer(request.user)
         return Response(serializer.data)
 
 

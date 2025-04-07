@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 # مسیرهای مدل‌ها
 MODELS_DIR = os.path.join(settings.BASE_DIR, 'apps', 'ai', 'face', 'models')
-FACE_DETECTION_MODEL_PATH = os.path.join(MODELS_DIR, 'face_detection_model.xml')
-FACE_RECOGNITION_MODEL_PATH = os.path.join(MODELS_DIR, 'face_recognition_model.dat')
+FACE_DETECTION_MODEL_PATH = os.path.join(MODELS_DIR, 'face-detection-adas-0001.xml')
+FACE_RECOGNITION_MODEL_PATH = os.path.join(r'D:\open ai\smart-parking-system\backend\apps\ai\face\models\dlib_face_recognition_resnet_model_v1.dat')
 
 # حد آستانه تشخیص
 FACE_DETECTION_THRESHOLD = 0.5
@@ -40,8 +40,8 @@ class FaceProcessor:
         try:
             # بارگذاری مدل تشخیص چهره
             self.face_detector = cv2.dnn.readNetFromCaffe(
-                os.path.join(MODELS_DIR, 'deploy.prototxt'),
-                os.path.join(MODELS_DIR, 'res10_300x300_ssd_iter_140000.caffemodel')
+                os.path.join(r'D:\open ai\smart-parking-system\backend\apps\ai\face\models\deploy.prototxt'),
+                os.path.join(r'D:\open ai\smart-parking-system\backend\apps\ai\face\models\res10_300x300_ssd_iter_140000.caffemodel')
             )
 
             logger.info("Face detection model loaded successfully.")
@@ -50,7 +50,7 @@ class FaceProcessor:
             import dlib
             self.face_recognizer = dlib.face_recognition_model_v1(FACE_RECOGNITION_MODEL_PATH)
             self.shape_predictor = dlib.shape_predictor(
-                os.path.join(MODELS_DIR, 'shape_predictor_68_face_landmarks.dat'))
+                os.path.join(r'D:\open ai\smart-parking-system\backend\apps\ai\face\models\shape_predictor_68_face_landmarks.dat'))
 
             logger.info("Face recognition model loaded successfully.")
 

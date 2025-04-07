@@ -7,6 +7,8 @@ from hezar.models import Model
 from pathlib import Path
 from django.conf import settings
 from typing import Dict, Tuple, List, Union, Optional
+from ultralytics import YOLO
+
 
 # تنظیم لاگر
 logger = logging.getLogger(__name__)
@@ -30,13 +32,17 @@ class LicensePlateProcessor:
         self.load_models()
 
     def load_models(self) -> None:
-        """
-        بارگذاری مدل‌های تشخیص و استخراج متن پلاک
-        """
         try:
             # بارگذاری مدل YOLOv5 برای تشخیص پلاک
             import torch
-            self.detection_model = torch.hub.load('ultralytics/yolov5', 'models/last.pt', path=DETECTION_MODEL_PATH)
+            try:
+                # ابتدا تلاش می‌کنیم از مدل سفارشی استفاده کنیم
+                self.detection_model = torch.hub.load('ultralytics/yolov5', 'custom', path='models/last.pt')
+            except FileNotFoundError:
+                # اگر مدل سفارشی پیدا نشد، از مدل پیش‌فرض استفاده می‌کنیم
+                logger.warning("Custom model not found, using default YOLOv5 model")
+                self.detection_model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+
             self.detection_model.conf = DETECTION_THRESHOLD
 
             # تنظیم دستگاه پردازش
@@ -46,13 +52,12 @@ class LicensePlateProcessor:
             logger.info(f"License plate detection model loaded successfully. Using device: {device}")
 
             # بارگذاری مدل CRNN برای استخراج متن پلاک
-            from hezarai.models import Model
             self.recognition_model = Model.load("hezarai/crnn-fa-64x256-license-plate-recognition")
 
             logger.info("License plate recognition model loaded successfully.")
 
         except Exception as e:
-            logger.error(f"Failed to load license plate models: {str(e)}")
+            logger.error(f"Error during model loading: {str(e)}")
             self.detection_model = None
             self.recognition_model = None
             raise

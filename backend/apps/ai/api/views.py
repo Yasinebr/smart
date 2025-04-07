@@ -39,43 +39,43 @@ class LicensePlateDetectionViewSet(viewsets.ModelViewSet):
         """تعیین مجوزهای دسترسی بر اساس عملیات"""
         if self.action in ['create', 'detect']:
             # فقط مدیران سیستم و مدیران پارکینگ می‌توانند تشخیص جدید انجام دهند
-            return [IsAuthenticated(), (IsAdmin() | IsParkingManager())]
+            return [IsAuthenticated(), IsAdmin()]
         return super().get_permissions()
 
-        def perform_create(self, serializer):
-            """ذخیره و پردازش تشخیص پلاک"""
-            detection = serializer.save(status=LicensePlateDetection.PENDING)
+    def perform_create(self, serializer):
+        """ذخیره و پردازش تشخیص پلاک"""
+        detection = serializer.save(status=LicensePlateDetection.PENDING)
 
-            try:
-                # پردازش تصویر
-                processor = LicensePlateProcessor()
+        try:
+            # پردازش تصویر
+            processor = LicensePlateProcessor()
 
-                # دریافت مسیر کامل تصویر
-                input_image_path = os.path.join(settings.MEDIA_ROOT, detection.input_image.name)
+            # دریافت مسیر کامل تصویر
+            input_image_path = os.path.join(settings.MEDIA_ROOT, detection.input_image.name)
 
-                # انجام تشخیص
-                result = processor.process_image(input_image_path)
+            # انجام تشخیص
+            result = processor.process_image(input_image_path)
 
-                if not result['success']:
-                    # ذخیره وضعیت خطا
-                    detection.status = LicensePlateDetection.FAILED
-                    detection.save()
-                    raise LicensePlateDetectionError(detail=result['message'])
-
-                # به‌روزرسانی اطلاعات تشخیص
-                detection.license_plate_text = result['license_plate']
-                detection.confidence = result['confidence']
-                detection.bounding_box = result['bbox']
-                detection.output_image = result['output_image'].replace(settings.MEDIA_URL, '')
-                detection.processing_time = result['processing_time']
-                detection.status = LicensePlateDetection.COMPLETED
-                detection.save()
-
-            except Exception as e:
-                # ذخیره وضعیت خطا در صورت بروز مشکل
+            if not result['success']:
+                # ذخیره وضعیت خطا
                 detection.status = LicensePlateDetection.FAILED
                 detection.save()
-                raise LicensePlateDetectionError(detail=str(e))
+                raise LicensePlateDetectionError(detail=result['message'])
+
+            # به‌روزرسانی اطلاعات تشخیص
+            detection.license_plate_text = result['license_plate']
+            detection.confidence = result['confidence']
+            detection.bounding_box = result['bbox']
+            detection.output_image = result['output_image'].replace(settings.MEDIA_URL, '')
+            detection.processing_time = result['processing_time']
+            detection.status = LicensePlateDetection.COMPLETED
+            detection.save()
+
+        except Exception as e:
+            # ذخیره وضعیت خطا در صورت بروز مشکل
+            detection.status = LicensePlateDetection.FAILED
+            detection.save()
+            raise LicensePlateDetectionError(detail=str(e))
 
         @action(detail=False, methods=['post'])
         def detect(self, request):
@@ -152,7 +152,7 @@ class FaceDetectionViewSet(viewsets.ModelViewSet):
             """تعیین مجوزهای دسترسی بر اساس عملیات"""
             if self.action in ['create', 'detect']:
                 # فقط مدیران سیستم و مدیران پارکینگ می‌توانند تشخیص جدید انجام دهند
-                return [IsAuthenticated(), (IsAdmin() | IsParkingManager())]
+                return [IsAuthenticated(), IsAdmin() ]
             return super().get_permissions()
 
         def perform_create(self, serializer):
