@@ -1,3 +1,0 @@
-"# smartparking" 
-"# smart" 
-"# smart" 

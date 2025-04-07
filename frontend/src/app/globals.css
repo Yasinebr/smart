@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 246, 248, 250;
+    --background-end-rgb: 255, 255, 255;
+}
+
+@font-face {
+    src: url("./fonts/Vazir-Regular-FD.ttf");
+    font-family: vazir;
+}
+
+body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+            to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))
+    ) rgb(var(--background-start-rgb));
+    min-height: 100vh;
+    font-family: vazir, serif;
+}
+
+/* RTL Support */
+body {
+    direction: rtl;
+    text-align: right;
+}
+
+.font-vazir {
+    font-family: vazir, serif;
+}
+
+/* Fix MUI RTL alignment issues */
+.MuiTableCell-root {
+    text-align: right !important;
+}
+
+.MuiInputBase-input {
+    text-align: right !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+

@@ -1,5 +1,5 @@
-"backend/apps/ai/license_plate/models/*.pt" 
-"backend/venv/Lib/site-packages/cv2/*.pyd" 
-"backend/venv/Lib/site-packages/torch/lib/*.dll" 
+"backend/apps/ai/license_plate/models/*.pt"
+"backend/venv/Lib/site-packages/cv2/*.pyd"
+"backend/venv/Lib/site-packages/torch/lib/*.dll"
 "backend/venv/Lib/site-packages/torch/lib/*.lib"
 node_modules
